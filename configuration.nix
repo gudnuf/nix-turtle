@@ -2,20 +2,25 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-   networking.hostName = "turtle"; # Define your hostname.
-   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.hostName = "turtle"; # Define your hostname.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
@@ -34,9 +39,6 @@
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
-
-
-  
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -57,21 +59,21 @@
   # services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-   users.users.gudnuf = {
+  users.users.gudnuf = {
     isNormalUser = true;
-     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-     packages = with pkgs; [
-       tree
-	git
-	neovim 
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    packages = with pkgs; [
+      tree
+      git
+      neovim
 
-     ]; 
-	initialPassword = "password";
-    };
+    ];
+    initialPassword = "password";
+  };
 
-	# Add holesail to system packages
+  # Add holesail to system packages
   #environment.systemPackages = with pkgs; [
-   # holesail
+  # holesail
   #];
 
   # If you want the package available to all users, you can add it to the system PATH
@@ -81,8 +83,7 @@
   # This line is necessary to make the package's binaries available in PATH
   #environment.shellInit = ''
   #  export PATH=$PATH:${holesail}/bin
- # '';
-  
+  # '';
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -102,18 +103,18 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-   services.openssh.enable = true;
-   services.tailscale.enable=true;
+  services.openssh.enable = true;
+  services.tailscale.enable = true;
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-   networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
-   nix = {
-	package = pkgs.nixFlakes;
-        extraOptions = "experimental-features = nix-command flakes";
-   };
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = "experimental-features = nix-command flakes";
+  };
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
@@ -139,4 +140,3 @@
   system.stateVersion = "24.05"; # Did you read the comment?
 
 }
-
