@@ -1,35 +1,36 @@
 {
-  description = "NixOS configuration for turtle with node2nix-generated holesail";
+  description = "NixOS configuration for turtle with holesail";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    holesail-flake.url = "github:gudnuf/holesail/flake";
+    holesail.url = "github:gudnuf/holesail-nix/main";
   };
 
-  outputs = { self, nixpkgs, holesail-flake }: 
+  outputs =
+    {
+      self,
+      nixpkgs,
+      holesail,
+    }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-#      holesail = (import ./packages/holesail {
- #       inherit pkgs system;
-  #      nodejs = pkgs.nodejs_22;
-   #   }).package;
-    in {
+    in
+    {
       nixosConfigurations = {
         turtle = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
             ./configuration.nix
 
-            # Use holesail package from the Holesail flake
+            # Use holesail package directly from the local Holesail flake
             {
-              environment.systemPackages = with pkgs; [
-                holesail-flake.packages.${system}.holesail
-              ];
+              environment.systemPackages = [
+                holesail.packages.x86_64-linux.default
+	      ];
             }
           ];
         };
       };
     };
-
 }
