@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    holesail.url = "path:./holesail";
+    holesail.url = "path:/home/gudnuf/flake/holesail";
   };
 
   outputs =
