@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration for turtle with holesail";
+  description = "NixOS configuration for turtle";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -23,11 +23,10 @@
           modules = [
             ./configuration.nix
 
-            # Use holesail package directly from the local Holesail flake
             {
               environment.systemPackages = [
                 holesail.packages.x86_64-linux.default
-	      ];
+              ];
             }
           ];
         };
