@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    holesail.url = "path:/home/gudnuf/flake/holesail";
+    holesail.url = "github:gudnuf/holesail-nix/main";
   };
 
   outputs =
@@ -26,9 +26,8 @@
             # Use holesail package directly from the local Holesail flake
             {
               environment.systemPackages = [
-                holesail.packages.${system}.holesail
-                holesail.packages.${system}.holesail-manager
-              ];
+                holesail.packages.x86_64-linux.default
+	      ];
             }
           ];
         };

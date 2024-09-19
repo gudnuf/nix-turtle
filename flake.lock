@@ -18,23 +18,23 @@
         "type": "github"
       }
     },
-    "holesail-flake": {
+    "holesail": {
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1726729200,
-        "narHash": "sha256-awx3Kz5hHpTVTLdotWxvJWfUoQw6YLXCjxmEXHqEQw0=",
+        "lastModified": 1726779235,
+        "narHash": "sha256-GJe2VMpA0bwv8E289e5A2Af4pS/299S3CSb9qrIBsWw=",
         "owner": "gudnuf",
-        "repo": "holesail",
-        "rev": "6cae089b46406468f9c6a20adcf1277bcc07ce78",
+        "repo": "holesail-nix",
+        "rev": "b4c1c32c92b5e57b39526173ecbb2bd42f382fa7",
         "type": "github"
       },
       "original": {
         "owner": "gudnuf",
-        "ref": "flake",
-        "repo": "holesail",
+        "ref": "main",
+        "repo": "holesail-nix",
         "type": "github"
       }
     },
@@ -72,7 +72,7 @@
     },
     "root": {
       "inputs": {
-        "holesail-flake": "holesail-flake",
+        "holesail": "holesail",
         "nixpkgs": "nixpkgs_2"
       }
     },
