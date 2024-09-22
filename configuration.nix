@@ -61,7 +61,12 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.gudnuf = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "bitcoin"
+      "clightning"
+    ];
     packages = with pkgs; [
       tree
       git
@@ -71,26 +76,53 @@
     initialPassword = "password";
   };
 
-  # Add holesail to system packages
-  #environment.systemPackages = with pkgs; [
-  # holesail
-  #];
-
-  # If you want the package available to all users, you can add it to the system PATH
-  #environment.pathsToLink = [ "/share/holesail" ];
-  #environment.systemPackages = [ holesail ];
-
-  # This line is necessary to make the package's binaries available in PATH
-  #environment.shellInit = ''
-  #  export PATH=$PATH:${holesail}/bin
-  # '';
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  # environment.syst #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #   wget
   # ];
+
+  # stored in /etc/nix-bitcoin-secrets
+  nix-bitcoin.generateSecrets = true;
+
+  nix-bitcoin.operator = {
+    enable = true;
+    name = "gudnuf";
+  };
+
+  #turn on tor for CLN
+  nix-bitcoin.onionServices.clightning = {
+    enable = true;
+    public = true;
+  };
+
+  services.bitcoind = {
+    enable = true;
+    txindex = true;
+    address = "0.0.0.0";
+    listen = true;
+    # extraConfig
+
+  };
+
+  services.clightning = {
+    enable = true;
+    address = "0.0.0.0";
+
+    # enable some cool CLN features
+    extraConfig = ''
+      experimental-offers
+      experimental-dual-fund
+      experimental-splicing
+    '';
+  };
+
+  services.fulcrum = {
+    enable = true;
+  };
+
+  services.mempool.enable = true;
+  services.mempool.electrumServer = "fulcrum";
+
+  nix-bitcoin.nodeinfo.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -106,10 +138,12 @@
   services.openssh.enable = true;
   services.tailscale.enable = true;
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [
+    8333
+    9735
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = false;
+  networking.firewall.enable = true;
 
   nix = {
     package = pkgs.nixFlakes;
