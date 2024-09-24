@@ -9,6 +9,7 @@
     nix-bitcoin.url = "github:fort-nix/nix-bitcoin/release";
     nixpkgs.follows = "nix-bitcoin/nixpkgs";
     nixpkgs-unstable.follows = "nix-bitcoin/nixpkgs-unstable";
+    clboss.url = "github:ZmnSCPxj/clboss/master";
   };
 
   outputs =
@@ -18,6 +19,7 @@
       holesail,
       home-manager,
       nix-bitcoin,
+      clboss,
       ...
     }:
     let
@@ -31,6 +33,13 @@
 
           modules = [
             nix-bitcoin.nixosModules.default
+
+            (
+              { pkgs, ... }:
+              {
+                nixpkgs.overlays = [ (final: prev: { clboss = clboss.packages.${pkgs.system}.default; }) ];
+              }
+            )
 
             ./configuration.nix
 

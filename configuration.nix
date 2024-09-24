@@ -76,6 +76,8 @@
         enable = true;
         min-onchain = 80000;
         min-channel = 1700000;
+        zerobasefee = "disallow";
+        #        package = pkgs.clboss;
       };
     };
   };
@@ -91,8 +93,19 @@
 
   nix-bitcoin.nodeinfo.enable = true;
 
-  # services.vaultwarden.enable = true;
+  services.vaultwarden = {
+    enable = true;
+    config = {
 
+      #DOMAIN = "https://${}";
+      SIGNUPS_ALLOWED = false;
+      ROCKET_ADDRESS = "127.0.0.1";
+      ROCKET_PORT = 8777;
+      ROCKET_LOG = "critical";
+    };
+    dbBackend = "sqlite";
+    environmentFile = "/var/lib/secrets/vaultwarden/vaultwarden.env";
+  };
   services.openssh.enable = true;
   services.tailscale.enable = true;
 
