@@ -23,6 +23,11 @@
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
+  fileSystems."/mnt/nvme" = {
+    device = "/dev/nvme0n1p1";
+    fsType = "ext4";
+  };
+
   users.users.gudnuf = {
     isNormalUser = true;
     extraGroups = [
@@ -60,16 +65,16 @@
     txindex = true;
     address = "0.0.0.0";
     listen = true;
+    dataDir = "/mnt/nvme/bitcoind";
   };
 
   services.clightning = {
     enable = true;
     address = "0.0.0.0";
+    package = pkgs.clightning;
 
     extraConfig = ''
-      experimental-offers
-      experimental-dual-fund
-      experimental-splicing
+      #  log-level=debug
     '';
     plugins = {
       clboss = {
@@ -77,7 +82,7 @@
         min-onchain = 80000;
         min-channel = 1700000;
         zerobasefee = "disallow";
-        #        package = pkgs.clboss;
+  #      package = pkgs.clboss;
       };
     };
   };
@@ -89,6 +94,7 @@
   services.mempool = {
     enable = true;
     electrumServer = "fulcrum";
+    # port = 60845;
   };
 
   nix-bitcoin.nodeinfo.enable = true;
