@@ -7,15 +7,17 @@
     nixpkgs.follows = "nix-bitcoin/nixpkgs";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     clboss.url = "github:ZmnSCPxj/clboss/master";
+    cln_nwc.url = "github:gudnuf/cln_nwc/v0.1.2";
   };
   outputs =
     {
       self,
       nixpkgs,
       holesail,
-      #     home-manager,
+      # home-manager,
       nix-bitcoin,
       clboss,
+      cln_nwc,
       nixpkgs-unstable,
       ...
     }:
@@ -39,6 +41,7 @@
                 nixpkgs.overlays = [
                   (final: prev: {
                     clboss = clboss.packages.${pkgs.system}.default;
+                    cln_nwc = cln_nwc.packages.${pkgs.system}.default;
                     clightning = pkgs-unstable.clightning;
                   })
                 ];
@@ -47,13 +50,13 @@
 
             ./configuration.nix
 
-            #          { environment.systemPackages = [ holesail.packages.x86_64-linux.default ]; }
+            { environment.systemPackages = [ holesail.packages.x86_64-linux.default ]; }
           ];
 
         };
       };
 
-      #   homeConfigurations = {
+      # homeConfigurations = {
       #    gudnuf = home-manager.lib.homeManagerConfiguration {
       #     inherit pkgs;
       #     modules = [ ./home.nix ];

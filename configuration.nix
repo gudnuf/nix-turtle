@@ -75,6 +75,8 @@
 
     extraConfig = ''
       #  log-level=debug
+
+      plugin=${pkgs.cln_nwc}/bin/nwc.py
     '';
     plugins = {
       clboss = {
@@ -82,7 +84,7 @@
         min-onchain = 80000;
         min-channel = 1700000;
         zerobasefee = "disallow";
-  #      package = pkgs.clboss;
+        #      package = pkgs.clboss;
       };
     };
   };
